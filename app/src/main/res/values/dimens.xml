@@ -8,7 +8,7 @@
     <dimen name="activity_layout_weight">5</dimen>
     <dimen name="settings_indent_size">12dp</dimen>
     <dimen name="settings_text_size">16sp</dimen>
+    <dimen name="settings_strings_height">61dp</dimen>
     <dimen name="icon_padding">8dp</dimen>
     <dimen name="zero_size">0dp</dimen>
-
 </resources>

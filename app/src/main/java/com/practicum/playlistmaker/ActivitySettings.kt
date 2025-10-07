@@ -1,8 +1,7 @@
 package com.practicum.playlistmaker
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
+import android.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -15,12 +14,17 @@ class ActivitySettings : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            v.setPadding(
+                v.paddingLeft + systemBars.left,
+                v.paddingTop + systemBars.top,
+                v.paddingRight + systemBars.right,
+                v.paddingBottom + systemBars.bottom
+            )
             insets
         }
 
-        val backwardSetting = findViewById<Button>(R.id.backward_setting)
-        backwardSetting.setOnClickListener {
+        val toolbarSetting = findViewById<Toolbar>(R.id.toolbar_setting)
+        toolbarSetting.setNavigationOnClickListener  {
             finish()
         }
     }
