@@ -23,6 +23,5 @@ class ActivitySettings : AppCompatActivity() {
         backwardSetting.setOnClickListener {
             finish()
         }
-
     }
 }

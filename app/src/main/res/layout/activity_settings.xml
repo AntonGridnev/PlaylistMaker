@@ -19,12 +19,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
-            android:background="@drawable/arrow_back"
+            android:background="@drawable/ic_arrow_back_24"
             android:minWidth="@dimen/zero_size"
             android:minHeight="@dimen/zero_size"
 
             app:backgroundTint="@color/white"
-            app:icon="@drawable/arrow_back"
+            app:icon="@drawable/ic_arrow_back_24"
             app:iconTint="@color/black" />
 
         <TextView
@@ -80,12 +80,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
-            android:background="@drawable/share"
+            android:background="@drawable/ic_share_24"
             android:minWidth="@dimen/zero_size"
             android:minHeight="@dimen/zero_size"
 
             app:backgroundTint="@color/white"
-            app:icon="@drawable/share"
+            app:icon="@drawable/ic_share_24"
             app:iconTint="@color/gray" />
 
     </FrameLayout>
@@ -108,12 +108,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
-            android:background="@drawable/support"
+            android:background="@drawable/ic_support_24"
             android:minWidth="@dimen/zero_size"
             android:minHeight="@dimen/zero_size"
 
             app:backgroundTint="@color/white"
-            app:icon="@drawable/support"
+            app:icon="@drawable/ic_support_24"
             app:iconTint="@color/gray" />
 
     </FrameLayout>
@@ -136,12 +136,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
-            android:background="@drawable/arrow_forward"
+            android:background="@drawable/ic_arrow_forward_24"
             android:minWidth="@dimen/zero_size"
             android:minHeight="@dimen/zero_size"
 
             app:backgroundTint="@color/white"
-            app:icon="@drawable/arrow_forward"
+            app:icon="@drawable/ic_arrow_forward_24"
             app:iconTint="@color/gray" />
 
     </FrameLayout>
