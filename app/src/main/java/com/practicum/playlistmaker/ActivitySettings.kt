@@ -21,8 +21,7 @@ class ActivitySettings : AppCompatActivity() {
 
         val backwardSetting = findViewById<Button>(R.id.backward_setting)
         backwardSetting.setOnClickListener {
-            val displayMain = Intent(this, MainActivity::class.java)
-            startActivity(displayMain)
+            finish()
         }
 
     }
