@@ -13,17 +13,19 @@
         android:layout_height="@dimen/panel_header_size"
         android:navigationIcon="@drawable/ic_arrow_back_24"
         android:title="@string/settings"
-        android:titleTextColor="@color/black" />
+        android:titleTextColor="@color/black"
+        />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/settings_strings_height"
+        android:layout_marginTop="@dimen/panel_header_indent"
         android:gravity="center_vertical"
+        android:minHeight="@dimen/settings_strings_height"
         android:orientation="horizontal"
         android:paddingStart="@dimen/indent_size"
-        android:paddingEnd="8dp"
-        android:layout_marginTop="@dimen/panel_header_indent">
+        android:paddingEnd="8dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,6 +33,7 @@
             android:text="@string/dark_theme"
             android:textColor="@color/black"
             android:textSize="@dimen/settings_text_size" />
+
         <androidx.appcompat.widget.SwitchCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
