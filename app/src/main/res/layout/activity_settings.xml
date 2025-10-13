@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <Toolbar
+        android:id="@+id/toolbar_setting"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/panel_header_size"
+        android:navigationIcon="@drawable/ic_arrow_back_24"
+        android:title="@string/settings"
+        android:titleTextColor="@color/black"
+        />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/panel_header_indent"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/settings_strings_height"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/indent_size"
+        android:paddingEnd="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start|center_vertical"
+            android:text="@string/dark_theme"
+            android:textColor="@color/black"
+            android:textSize="@dimen/settings_text_size" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical" />
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/settings_strings_height"
+        android:gravity="center_vertical"
+        android:text="@string/share"
+        android:textColor="@color/black"
+        android:textSize="@dimen/settings_text_size"
+        android:background="?attr/selectableItemBackground"
+        app:drawableEndCompat="@drawable/ic_share_24"
+        android:paddingStart="@dimen/indent_size"
+        android:paddingEnd="@dimen/settings_indent_size" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/settings_strings_height"
+        android:gravity="center_vertical"
+        android:text="@string/write_to_support"
+        android:textColor="@color/black"
+        android:textSize="@dimen/settings_text_size"
+        android:background="?attr/selectableItemBackground"
+        app:drawableEndCompat="@drawable/ic_support_24"
+        android:paddingStart="@dimen/indent_size"
+        android:paddingEnd="@dimen/settings_indent_size" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/settings_strings_height"
+        android:gravity="center_vertical"
+        android:text="@string/user_agreement"
+        android:textColor="@color/black"
+        android:textSize="@dimen/settings_text_size"
+        android:background="?attr/selectableItemBackground"
+        app:drawableEndCompat="@drawable/ic_arrow_forward_24"
+        android:paddingStart="@dimen/indent_size"
+        android:paddingEnd="@dimen/settings_indent_size" />
+
+</LinearLayout>
