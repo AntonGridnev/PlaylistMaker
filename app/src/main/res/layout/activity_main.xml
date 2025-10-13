@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:theme="@style/Theme.PlaylistMaker.main">
 
     <TextView
         android:layout_width="match_parent"
@@ -15,83 +16,25 @@
         android:layout_marginStart="@dimen/indent_size"
         android:gravity="center|start"
         android:text="@string/title_name"
-        android:textColor="@color/white"
-        android:textSize="@dimen/activity_text_size"
-        android:textStyle="bold" />
+        style="@style/HeaderTextStyle"
+        android:textColor="@color/white"/>
 
     <Button
-        android:foreground="?attr/selectableItemBackground"
         android:id="@+id/search_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="@dimen/indent_size"
-        android:layout_marginTop="@dimen/panel_header_indent"
-        android:layout_weight="@dimen/activity_layout_weight"
-        android:background="@drawable/rounded_button"
-
         android:text="@string/search"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        android:textSize="@dimen/activity_text_size"
-        android:textStyle="bold"
-
-        app:backgroundTint="@color/white"
         app:icon="@drawable/ic_search_24"
-        app:iconGravity="textStart"
-        app:iconPadding="@dimen/icon_padding"
-        app:iconTint="@color/black" />
+        style="@style/ButtonMainStyle" />
 
     <Button
-        android:foreground="?attr/selectableItemBackground"
         android:id="@+id/media_library_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="@dimen/indent_size"
-        android:layout_marginTop="@dimen/indent_size"
-        android:layout_weight="@dimen/activity_layout_weight"
-        android:background="@drawable/rounded_button"
-
         android:text="@string/media_library"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        android:textSize="@dimen/activity_text_size"
-        android:textStyle="bold"
-
-        app:backgroundTint="@color/white"
         app:icon="@drawable/ic_music_24"
-        app:iconGravity="textStart"
-        app:iconPadding="@dimen/icon_padding"
-        app:iconTint="@color/black" />
+        style="@style/ButtonMainStyle" />
 
     <Button
-        android:foreground="?attr/selectableItemBackground"
         android:id="@+id/settings_main"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginHorizontal="@dimen/indent_size"
-        android:layout_marginTop="@dimen/indent_size"
-        android:layout_weight="@dimen/activity_layout_weight"
-        android:background="@drawable/rounded_button"
-
         android:text="@string/settings"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
-        android:textSize="@dimen/activity_text_size"
-        android:textStyle="bold"
-
-        app:backgroundTint="@color/white"
         app:icon="@drawable/ic_settings_24"
-        app:iconGravity="textStart"
-        app:iconPadding="@dimen/icon_padding"
-        app:iconTint="@color/black" />
-
-<!--
-    Критерии успешного выполнения задания и макет в фигме противоречат друг другу.
-    Данный код необходимо добавить если всё таки отступ снизу от кнопок необходим.
-
-    <Space
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/lower_indent"
-    />-->
+        style="@style/ButtonMainStyle" />
 
 </LinearLayout>
