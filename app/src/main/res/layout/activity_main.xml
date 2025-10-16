@@ -21,9 +21,9 @@
 
     <Button
         android:id="@+id/search_main"
+        style="@style/ButtonMainStyle"
         android:text="@string/search"
-        app:icon="@drawable/ic_search_24"
-        style="@style/ButtonMainStyle" />
+        app:icon="@drawable/ic_search_24" />
 
     <Button
         android:id="@+id/media_library_main"

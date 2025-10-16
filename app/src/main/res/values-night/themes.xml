@@ -12,6 +12,8 @@
         <!-- foreground -->
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorOnSecondary">@color/white</item>
+        <!-- foreground search-->
+        <item name="colorSecondaryVariant">@color/black</item>
         <!-- Status bar color. -->
     </style>
 </resources>
