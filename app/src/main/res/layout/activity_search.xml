@@ -51,7 +51,8 @@
             android:maxLength="100"
             android:background="@android:color/transparent"
             style="textSettingsStyle"
-            android:textColorHint="?attr/colorSecondaryVariant"/>
+            android:textColorHint="?attr/colorSecondaryVariant"
+            android:textColor="@color/black"/>
 
         <ImageView
             android:id="@+id/clearIcon"
