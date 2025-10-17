@@ -15,6 +15,12 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class ActivitySearch : AppCompatActivity() {
+
+    companion object {
+        const val KEY_SEARCH = "KEY_SEARCH"
+    }
+    private var savedText: String = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -37,16 +43,24 @@ class ActivitySearch : AppCompatActivity() {
             hideKeyboard(inputEditText)
         }
 
+
         val simpleTextWatcher = object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 //todo
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                savedText = s?.toString() ?: ""
                 clearButton.visibility = clearButtonVisibility(s)
             }
             override fun afterTextChanged(s: Editable?) {
                 //todo
             }
+        }
+
+        if (savedInstanceState != null) {
+            savedText = savedInstanceState.getString(KEY_SEARCH, "")
+            inputEditText.setText(savedText)
+            clearButton.visibility = clearButtonVisibility(savedText)
         }
 
         inputEditText.addTextChangedListener(simpleTextWatcher)
@@ -64,5 +78,14 @@ class ActivitySearch : AppCompatActivity() {
     private fun hideKeyboard(currentView: View) {
         val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
         inputMethodManager?.hideSoftInputFromWindow(`currentView`.windowToken, 0)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle){
+        super.onSaveInstanceState(outState)
+        outState.putString(KEY_SEARCH,savedText)
+    }
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        savedText = savedInstanceState.getString(KEY_SEARCH, "")
     }
 }

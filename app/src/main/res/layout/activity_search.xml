@@ -47,10 +47,11 @@
             android:layout_centerInParent="true"
             android:inputType="text"
             android:hint="@string/search"
-            android:textColorHint="?attr/colorSecondaryVariant"
             android:maxLines="1"
             android:maxLength="100"
-            android:background="@android:color/transparent" />
+            android:background="@android:color/transparent"
+            style="textSettingsStyle"
+            android:textColorHint="?attr/colorSecondaryVariant"/>
 
         <ImageView
             android:id="@+id/clearIcon"
