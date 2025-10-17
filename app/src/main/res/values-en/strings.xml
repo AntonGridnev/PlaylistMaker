@@ -8,4 +8,7 @@
     <string name="write_to_support">Write to support</string>
     <string name="user_agreement">User agreement</string>
     <string name="dark_theme">Dark theme</string>
+
+    <string name="write_to_support_subject" >Message to developers of the Playlist Maker app</string>
+    <string name="write_to_support_text" >Thanks to the developers for creating such a cool app!</string>
 </resources>

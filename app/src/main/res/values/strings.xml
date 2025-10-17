@@ -11,7 +11,7 @@
 
     <string name="share_message" translatable="false">https://practicum.yandex.ru/android-developer/</string>
     <string name="write_to_support_email" translatable="false">anton-grin@ya.ru</string>
-    <string name="write_to_support_subject" translatable="false">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
-    <string name="write_to_support_text" translatable="false">Спасибо разработчикам и разработчицам за крутое приложение!</string>
+    <string name="write_to_support_subject" >Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
+    <string name="write_to_support_text" >Спасибо разработчикам и разработчицам за крутое приложение!</string>
     <string name="user_agreement_link" translatable="false">https://yandex.ru/legal/practicum_offer/ru/</string>
 </resources>
