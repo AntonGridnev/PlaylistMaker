@@ -21,22 +21,14 @@ import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class ActivitySearch : AppCompatActivity() {
 
     private var savedText: String = ""
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(ITUNES_BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    val searchService = retrofit.create(iTunesApi::class.java)
+    private val searchService = RetrofitClientiTunes.iTunesService
 
     val tracks = ArrayList<Track>()
-
     val searchAdapter = SearchAdapter(tracks)
 
     private lateinit var placeholderMessage: TextView
@@ -124,6 +116,7 @@ class ActivitySearch : AppCompatActivity() {
                             R.drawable.ic_nothing_found_120,
                             getString(R.string.nothing_found)
                         )
+                        reconnect.visibility = View.GONE
                     }
                 } else {
                     showMessage(R.drawable.ic_no_network_120, getString(R.string.no_network))
@@ -179,7 +172,6 @@ class ActivitySearch : AppCompatActivity() {
 
     companion object {
         const val KEY_SEARCH = "KEY_SEARCH"
-        private const val ITUNES_BASE_URL = "https://itunes.apple.com"
         private const val DRAWABLE_PADDING_DP = 16
     }
 }
