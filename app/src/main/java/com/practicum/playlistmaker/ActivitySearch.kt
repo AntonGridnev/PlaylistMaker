@@ -2,23 +2,45 @@ package com.practicum.playlistmaker
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class ActivitySearch : AppCompatActivity() {
 
     private var savedText: String = ""
+
+    private val retrofit = Retrofit.Builder()
+        .baseUrl(ITUNES_BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    val searchService = retrofit.create(iTunesApi::class.java)
+
+    val tracks = ArrayList<Track>()
+
+    val searchAdapter = SearchAdapter(tracks)
+
+    private lateinit var placeholderMessage: TextView
+    private lateinit var reconnect: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,13 +55,39 @@ class ActivitySearch : AppCompatActivity() {
         val toolbarSearch = findViewById<Toolbar>(R.id.toolbar_search)
         val clearButton = findViewById<ImageView>(R.id.clearIcon)
         val inputEditText = findViewById<EditText>(R.id.inputEditText)
+        placeholderMessage = findViewById<TextView>(R.id.placeholderMessage)
+        reconnect = findViewById<Button>(R.id.reconnect)
 
-        toolbarSearch.setNavigationOnClickListener  {
+        toolbarSearch.setNavigationOnClickListener {
             finish()
         }
         clearButton.setOnClickListener {
             inputEditText.setText("")
+
+            tracks.clear()
+            placeholderMessage.visibility = View.GONE
+            reconnect.visibility = View.GONE
+
+            searchAdapter.notifyDataSetChanged()
             hideKeyboard(inputEditText)
+        }
+        reconnect.setOnClickListener {
+            if (inputEditText.text.isNotEmpty()) {
+                performSearch(inputEditText.text.toString())
+            } else {
+                showMessage(R.drawable.ic_no_network_120, "Введите запрос")
+                reconnect.visibility = View.GONE
+            }
+        }
+
+        inputEditText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                if (inputEditText.text.isNotEmpty()) {
+                    performSearch(inputEditText.text.toString())
+                }
+                true
+            }
+            false
         }
 
         inputEditText.doOnTextChanged { text, start, before, count ->
@@ -54,9 +102,39 @@ class ActivitySearch : AppCompatActivity() {
         }
 
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        val searchAdapter = SearchAdapter(genarateMockTrakList(trackNameList, artistNameList, trackTime, artworkUrl100))
         recyclerView.adapter = searchAdapter
 
+    }
+
+    private fun performSearch(query: String) {
+        searchService.search(query).enqueue(object : Callback<iTunesResponse> {
+            override fun onResponse(
+                call: Call<iTunesResponse>,
+                response: Response<iTunesResponse>
+            ) {
+                if (response.isSuccessful) {
+                    tracks.clear()
+                    if (response.body()?.results?.isNotEmpty() == true) {
+                        placeholderMessage.visibility = View.GONE
+                        reconnect.visibility = View.GONE
+                        tracks.addAll(response.body()?.results!!)
+                        searchAdapter.notifyDataSetChanged()
+                    } else {
+                        showMessage(
+                            R.drawable.ic_nothing_found_120,
+                            getString(R.string.nothing_found)
+                        )
+                    }
+                } else {
+                    showMessage(R.drawable.ic_no_network_120, getString(R.string.no_network))
+                }
+            }
+            override fun onFailure(call: Call<iTunesResponse>, t: Throwable) {
+                showMessage(R.drawable.ic_no_network_120, getString(R.string.no_network))
+                reconnect.visibility = View.VISIBLE
+            }
+
+        })
     }
 
     private fun clearButtonVisibility(s: CharSequence?): Int {
@@ -67,15 +145,33 @@ class ActivitySearch : AppCompatActivity() {
         }
     }
 
+    fun showMessage(@DrawableRes iconRes: Int, text: String) {
+        placeholderMessage.visibility = View.VISIBLE
+        tracks.clear()
+        searchAdapter.notifyDataSetChanged()
+        placeholderMessage.text = text
+        placeholderMessage.setCompoundDrawablesWithIntrinsicBounds(
+            null,
+            ContextCompat.getDrawable(this, iconRes),
+            null,
+            null
+        )
+        val paddingInPx =
+            (DRAWABLE_PADDING_DP * placeholderMessage.resources.displayMetrics.density).toInt()
+        placeholderMessage.compoundDrawablePadding = paddingInPx
+    }
+
     private fun hideKeyboard(currentView: View) {
-        val inputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        val inputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
         inputMethodManager?.hideSoftInputFromWindow(`currentView`.windowToken, 0)
     }
 
-    override fun onSaveInstanceState(outState: Bundle){
+    override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(KEY_SEARCH,savedText)
+        outState.putString(KEY_SEARCH, savedText)
     }
+
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         savedText = savedInstanceState.getString(KEY_SEARCH, "")
@@ -83,32 +179,7 @@ class ActivitySearch : AppCompatActivity() {
 
     companion object {
         const val KEY_SEARCH = "KEY_SEARCH"
-    }
-
-    val trackNameList = arrayListOf("Smells Like Teen Spirit", "Billie Jean", "Stayin' Alive", "Whole Lotta Love", "Sweet Child O'Mine")
-    val artistNameList = arrayListOf("Nirvana", "Michael Jackson", "Bee Gees", "Led Zeppelin", "Guns N' Roses")
-    val trackTime = arrayListOf("5:01", "4:35", "4:10", "5:33", "5:03")
-    val artworkUrl100 = arrayListOf("https://is5-ssl.mzstatic.com/image/thumb/Music115/v4/7b/58/c2/7b58c21a-2b51-2bb2-e59a-9bb9b96ad8c3/00602567924166.rgb.jpg/100x100bb.jpg"
-        ,"https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/3d/9d/38/3d9d3811-71f0-3a0e-1ada-3004e56ff852/827969428726.jpg/100x100bb.jpg"
-        ,"https://is4-ssl.mzstatic.com/image/thumb/Music115/v4/1f/80/1f/1f801fc1-8c0f-ea3e-d3e5-387c6619619e/16UMGIM86640.rgb.jpg/100x100bb.jpg"
-        ,"https://is2-ssl.mzstatic.com/image/thumb/Music62/v4/7e/17/e3/7e17e33f-2efa-2a36-e916-7f808576cf6b/mzm.fyigqcbs.jpg/100x100bb.jpg"
-        ,"https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/a0/4d/c4/a04dc484-03cc-02aa-fa82-5334fcb4bc16/18UMGIM24878.rgb.jpg/100x100bb.jpg")
-
-    fun genarateMockTrakList(name: ArrayList<String>, artist: ArrayList<String>, time: ArrayList<String>, url: ArrayList<String>): ArrayList<Track>{
-        val minSize = minOf(name.size, artist.size, time.size, url.size)
-        // Если списки будут разного размера, размер списка Traсk будет с учётом минимального списка
-        val trackList = ArrayList<Track>()
-
-        for (i in 0 until minSize) {
-            trackList.add(
-                Track(
-                    trackName = name[i],
-                    artistName = artist[i],
-                    trackTime = time[i],
-                    artworkUrl100 = url[i]
-                )
-            )
-        }
-        return trackList
+        private const val ITUNES_BASE_URL = "https://itunes.apple.com"
+        private const val DRAWABLE_PADDING_DP = 16
     }
 }

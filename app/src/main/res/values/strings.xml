@@ -8,6 +8,9 @@
     <string name="write_to_support">Написать в поддержку</string>
     <string name="user_agreement">Пользовательское соглашение</string>
     <string name="dark_theme">Темная тема</string>
+    <string name="nothing_found">Ничего не нашлось</string>
+    <string name="no_network">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
+    <string name="refresh">Обновить</string>
 
     <string name="share_message" translatable="false">https://practicum.yandex.ru/android-developer/</string>
     <string name="write_to_support_email" translatable="false">anton-grin@ya.ru</string>
