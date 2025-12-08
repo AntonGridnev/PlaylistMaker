@@ -2,7 +2,6 @@ package com.practicum.playlistmaker
 
 import android.util.TypedValue
 import android.view.LayoutInflater
-import android.view.RoundedCorner
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -26,7 +25,7 @@ class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(model: Track) {
         trackName.text = model.trackName
         artistName.text = model.artistName
-        trackTime.text = formatTrackTime(model.trackTime)
+        trackTime.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(model.trackTime)
         Glide.with(itemView)
             .load(model.artworkUrl100)
             .centerCrop()
@@ -42,34 +41,5 @@ class SearchViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             dp,
             this.context.resources.displayMetrics
         ).toInt()
-    }
-
-    private fun formatTrackTime(time: Any?): String {
-        return try {
-            when (time) {
-                is Long -> {
-                    SimpleDateFormat("mm:ss", Locale.getDefault()).format(time)
-                }
-                is Int -> {
-                    SimpleDateFormat("mm:ss", Locale.getDefault()).format(time.toLong())
-                }
-                is Double -> {
-                    SimpleDateFormat("mm:ss", Locale.getDefault()).format(time.toLong())
-                }
-                is String -> {
-                    val longTime = time.toLongOrNull()
-                    if (longTime != null) {
-                        SimpleDateFormat("mm:ss", Locale.getDefault()).format(longTime)
-                    } else {
-                        time
-                    }
-                }
-                else -> {
-                    ""
-                }
-            }
-        } catch (e: Exception) {
-            ""
-        }
     }
 }
