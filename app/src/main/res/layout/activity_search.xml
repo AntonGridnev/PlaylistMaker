@@ -48,13 +48,15 @@
                 style="textSettingsStyle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:paddingEnd = "30dp"
-                android:inputType="text"
                 android:layout_gravity="center"
                 android:background="@android:color/transparent"
                 android:hint="@string/search"
+                android:imeOptions="actionDone"
+                android:inputType="text"
                 android:maxLength="100"
                 android:maxLines="1"
+                android:paddingEnd="30dp"
+                android:singleLine="true"
                 android:textColor="@color/black"
                 android:textColorHint="?attr/colorSecondaryVariant" />
 
@@ -72,11 +74,45 @@
 
     </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/indent_size"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/indent_size"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <TextView
+            android:id="@+id/placeholderMessage"
+            style="@style/searchErrorsStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="102dp"
+            android:layout_marginEnd="24dp"
+            android:gravity="center"
+
+            android:visibility="gone" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/reconnect"
+            style="@style/searchErrorsStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="350dp"
+            android:text="@string/refresh"
+            android:textAllCaps="false"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:backgroundTint="?attr/colorSecondary"
+
+            app:cornerRadius="54dp" />
+
+    </FrameLayout>
 
 </LinearLayout>
