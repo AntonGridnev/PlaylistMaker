@@ -32,9 +32,11 @@ class ActivitySettings : AppCompatActivity() {
             finish()
         }
 
-        darkThemeSwitch.setOnClickListener {
-
+        darkThemeSwitch.isChecked = (application as App).isDarkTheme
+        darkThemeSwitch.setOnCheckedChangeListener { switcher, checked ->
+            (applicationContext as App).switchTheme(checked)
         }
+
 
         share.setOnClickListener{
             val shareIntent = Intent(Intent.ACTION_SEND)
@@ -57,5 +59,6 @@ class ActivitySettings : AppCompatActivity() {
             userAgreementIntent.data = Uri.parse(getString(R.string.user_agreement_link))
             startActivity(userAgreementIntent)
         }
+
     }
 }

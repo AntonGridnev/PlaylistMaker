@@ -16,4 +16,9 @@
         <item name="colorSecondaryVariant">@color/gray</item>
         <!-- Status bar color. -->
     </style>
+
+    <style name="Theme.PlaylistMaker.setting" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="trackTint">@color/light_gray</item>
+        <item name="thumbTint">@color/gray</item>
+    </style>
 </resources>

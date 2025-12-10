@@ -19,4 +19,5 @@
     <dimen name="search_list_start">13dp</dimen>
     <dimen name="search_small_text_size">11sp</dimen>
     <dimen name="search_errors_text_size">19sp</dimen>
+    <dimen name="search_button_text_size">14sp</dimen>
 </resources>
