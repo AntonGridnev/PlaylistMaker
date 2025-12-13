@@ -11,7 +11,10 @@ const val DARK_THEME_KEY = "key_for_dark_theme"
 class App : Application() {
 
     var isDarkTheme: Boolean = false
+        private set
+
     lateinit var sharedPrefs: SharedPreferences
+        private set
 
     override fun onCreate() {
         super.onCreate()

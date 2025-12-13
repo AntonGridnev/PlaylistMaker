@@ -53,10 +53,10 @@ class SearchHistory(private val sharedPrefs: SharedPreferences) {
         notifyAllListeners()
     }
 
-    fun getHistory(): ArrayList<Track> {
-        val json = sharedPrefs.getString(SEARCH_HISTORY_KEY, null) ?: return ArrayList()
-        val array = Gson().fromJson(json, Array<Track>::class.java) ?: return ArrayList()
-        return ArrayList(array.toList())
+    fun getHistory(): MutableList<Track> {
+        val json = sharedPrefs.getString(SEARCH_HISTORY_KEY, null) ?: return mutableListOf()
+        val array = Gson().fromJson(json, Array<Track>::class.java) ?: return mutableListOf()
+        return array.toMutableList()
     }
 
     fun clearHistory() {

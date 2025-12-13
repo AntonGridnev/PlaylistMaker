@@ -31,8 +31,8 @@ class ActivitySearch : AppCompatActivity() {
 
     private val searchService = RetrofitClientiTunes.iTunesService
 
-    private val tracks = ArrayList<Track>()
-    private val historyTracks = ArrayList<Track>()
+    private val tracks = mutableListOf<Track>()
+    private val historyTracks = mutableListOf<Track>()
     private lateinit var searchAdapter: SearchAdapter
     private lateinit var placeholderMessage: TextView
     private lateinit var reconnect: Button
@@ -72,14 +72,8 @@ class ActivitySearch : AppCompatActivity() {
         searchAdapter = SearchAdapter(tracks, saveSearchHistory)
         recyclerView.adapter = searchAdapter
 
-        val showSearchHistory = object : OnItemClickListener {
-            override fun onItemClick(track: Track) {
-
-            }
-        }
-
         historyTracks.addAll(searchHistory.getHistory())
-        searchAdapterHistory = SearchAdapter(historyTracks, showSearchHistory)
+        searchAdapterHistory = SearchAdapter(historyTracks, null)
         rvSearchHistory.adapter = searchAdapterHistory
 
 
@@ -88,18 +82,12 @@ class ActivitySearch : AppCompatActivity() {
                 if (hasFocus && etSearch.text.isEmpty() && historyTracks.isNotEmpty()) View.VISIBLE else View.GONE
         }
 
-        etSearch.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                llSearchHistory.visibility =
-                    if (etSearch.hasFocus() && p0?.isEmpty() == true && historyTracks.isNotEmpty()) View.VISIBLE else View.GONE
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-            }
-        })
+        etSearch.doOnTextChanged {  text, _, _, _ ->
+            llSearchHistory.visibility = if (
+                etSearch.hasFocus() &&
+                text.isNullOrEmpty() &&
+                historyTracks.isNotEmpty()
+            ) View.VISIBLE else View.GONE }
 
         searchHistory.addChangeListener {
             updateHistoryDisplay()
