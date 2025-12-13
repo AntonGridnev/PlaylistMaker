@@ -54,13 +54,23 @@
         <item name="drawableTint">?attr/colorOnSecondary</item>
     </style>
     
-    <style name="searchErrorsStyle">
+    <style name="searchMessageTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:textColor">?attr/colorSecondary</item>
         <item name="android:textSize">@dimen/search_errors_text_size</item>
         <item name="android:fontFamily">@font/ys_display_medium</item>
         <item name="android:textFontWeight">400</item>
         <item name="android:letterSpacing">0</item>
+    </style>
+    <style name="searchButtonTextStyle" parent="searchMessageTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:textSize">@dimen/search_button_text_size</item>
+        <item name="backgroundTint">?attr/colorSecondary</item>
+        <item name="cornerRadius">54dp</item>
     </style>
 
 </resources>

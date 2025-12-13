@@ -2,12 +2,15 @@ package com.practicum.playlistmaker
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toolbar
 import androidx.activity.enableEdgeToEdge
@@ -28,11 +31,14 @@ class ActivitySearch : AppCompatActivity() {
 
     private val searchService = RetrofitClientiTunes.iTunesService
 
-    val tracks = ArrayList<Track>()
-    val searchAdapter = SearchAdapter(tracks)
-
+    private val tracks = mutableListOf<Track>()
+    private val historyTracks = mutableListOf<Track>()
+    private lateinit var searchAdapter: SearchAdapter
     private lateinit var placeholderMessage: TextView
     private lateinit var reconnect: Button
+    private lateinit var searchHistory: SearchHistory
+    private lateinit var searchAdapterHistory: SearchAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,58 +50,112 @@ class ActivitySearch : AppCompatActivity() {
             insets
         }
 
-        val toolbarSearch = findViewById<Toolbar>(R.id.toolbar_search)
-        val clearButton = findViewById<ImageView>(R.id.clearIcon)
-        val inputEditText = findViewById<EditText>(R.id.inputEditText)
-        placeholderMessage = findViewById<TextView>(R.id.placeholderMessage)
-        reconnect = findViewById<Button>(R.id.reconnect)
+        val toolbarSearch = findViewById<Toolbar>(R.id.toolbarSearch)
+        val clearButton = findViewById<ImageView>(R.id.ivClearIconSearch)
+        val etSearch = findViewById<EditText>(R.id.etSearch)
+        placeholderMessage = findViewById<TextView>(R.id.tvPlaceholderMessage)
+        reconnect = findViewById<Button>(R.id.btnReconnect)
+        val recyclerView = findViewById<RecyclerView>(R.id.rvSearch)
+        val llSearchHistory = findViewById<LinearLayout>(R.id.llSearchHistory)
+        val rvSearchHistory = findViewById<RecyclerView>(R.id.rvSearchHistory)
+        val btClearHistory = findViewById<Button>(R.id.btClearHistory)
+
+        val SharedPreferencesSearchHistory = getSharedPreferences(SEARCH_HISTORY, MODE_PRIVATE)
+        searchHistory = SearchHistory(SharedPreferencesSearchHistory)
+
+        val saveSearchHistory = object : OnItemClickListener {
+            override fun onItemClick(track: Track) {
+                searchHistory.addTrack(track)
+            }
+        }
+
+        searchAdapter = SearchAdapter(tracks, saveSearchHistory)
+        recyclerView.adapter = searchAdapter
+
+        historyTracks.addAll(searchHistory.getHistory())
+        searchAdapterHistory = SearchAdapter(historyTracks, null)
+        rvSearchHistory.adapter = searchAdapterHistory
+
+
+        etSearch.setOnFocusChangeListener { view, hasFocus ->
+            llSearchHistory.visibility =
+                if (hasFocus && etSearch.text.isEmpty() && historyTracks.isNotEmpty()) View.VISIBLE else View.GONE
+        }
+
+        etSearch.doOnTextChanged {  text, _, _, _ ->
+            llSearchHistory.visibility = if (
+                etSearch.hasFocus() &&
+                text.isNullOrEmpty() &&
+                historyTracks.isNotEmpty()
+            ) View.VISIBLE else View.GONE }
+
+        searchHistory.addChangeListener {
+            updateHistoryDisplay()
+        }
 
         toolbarSearch.setNavigationOnClickListener {
             finish()
         }
+
         clearButton.setOnClickListener {
-            inputEditText.setText("")
+            etSearch.setText("")
 
             tracks.clear()
             placeholderMessage.visibility = View.GONE
             reconnect.visibility = View.GONE
 
             searchAdapter.notifyDataSetChanged()
-            hideKeyboard(inputEditText)
+            hideKeyboard(etSearch)
         }
+
         reconnect.setOnClickListener {
-            if (inputEditText.text.isNotEmpty()) {
-                performSearch(inputEditText.text.toString())
-            } else {
-                showMessage(R.drawable.ic_no_network_120, "Введите запрос")
-                reconnect.visibility = View.GONE
+            if (etSearch.text.isNotEmpty()) {
+                performSearch(etSearch.text.toString())
             }
         }
 
-        inputEditText.setOnEditorActionListener { _, actionId, _ ->
+        etSearch.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                if (inputEditText.text.isNotEmpty()) {
-                    performSearch(inputEditText.text.toString())
+                if (etSearch.text.isNotEmpty()) {
+                    performSearch(etSearch.text.toString())
                 }
                 true
             }
             false
         }
 
-        inputEditText.doOnTextChanged { text, start, before, count ->
+        btClearHistory.setOnClickListener {
+            searchHistory.clearHistory()
+            updateHistoryDisplay()
+            llSearchHistory.visibility = View.GONE
+        }
+
+        etSearch.doOnTextChanged { text, start, before, count ->
             savedText = text?.toString() ?: ""
+
+            if (text.isNullOrEmpty()) {
+                reconnect.visibility = View.GONE
+                placeholderMessage.visibility = View.GONE
+                tracks.clear()
+                searchAdapter.notifyDataSetChanged()
+
+            }
             clearButton.visibility = clearButtonVisibility(text)
+
         }
 
         if (savedInstanceState != null) {
             savedText = savedInstanceState.getString(KEY_SEARCH, "")
-            inputEditText.setText(savedText)
+            etSearch.setText(savedText)
             clearButton.visibility = clearButtonVisibility(savedText)
         }
 
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.adapter = searchAdapter
+    }
 
+    private fun updateHistoryDisplay() {
+        historyTracks.clear()
+        historyTracks.addAll(searchHistory.getHistory())
+        searchAdapterHistory.notifyDataSetChanged()
     }
 
     private fun performSearch(query: String) {
@@ -122,6 +182,7 @@ class ActivitySearch : AppCompatActivity() {
                     showMessage(R.drawable.ic_no_network_120, getString(R.string.no_network))
                 }
             }
+
             override fun onFailure(call: Call<iTunesResponse>, t: Throwable) {
                 showMessage(R.drawable.ic_no_network_120, getString(R.string.no_network))
                 reconnect.visibility = View.VISIBLE
@@ -170,8 +231,14 @@ class ActivitySearch : AppCompatActivity() {
         savedText = savedInstanceState.getString(KEY_SEARCH, "")
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        searchHistory.removeChangeListener() {}
+    }
+
     companion object {
         const val KEY_SEARCH = "KEY_SEARCH"
         private const val DRAWABLE_PADDING_DP = 16
+        const val SEARCH_HISTORY = "search_history"
     }
 }

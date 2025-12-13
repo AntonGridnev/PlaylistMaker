@@ -11,6 +11,7 @@
     <string name="nothing_found">Nothing found</string>
     <string name="no_network">Connection problems\n\nCheck your internet connection.</string>
     <string name="refresh">Refresh</string>
+    <string name="clear_history">Clear history</string>
 
     <string name="write_to_support_subject" >Message to developers of the Playlist Maker app</string>
     <string name="write_to_support_text" >Thanks to the developers for creating such a cool app!</string>
