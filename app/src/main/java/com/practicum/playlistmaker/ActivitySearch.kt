@@ -1,6 +1,7 @@
 package com.practicum.playlistmaker
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -66,6 +67,10 @@ class ActivitySearch : AppCompatActivity() {
         val saveSearchHistory = object : OnItemClickListener {
             override fun onItemClick(track: Track) {
                 searchHistory.addTrack(track)
+                val displayPlayer = Intent(this@ActivitySearch, ActivityPlayer::class.java).apply {
+                    putExtra("TRACK", track)
+                }
+                startActivity(displayPlayer)
             }
         }
 
@@ -73,7 +78,16 @@ class ActivitySearch : AppCompatActivity() {
         recyclerView.adapter = searchAdapter
 
         historyTracks.addAll(searchHistory.getHistory())
-        searchAdapterHistory = SearchAdapter(historyTracks, null)
+        val showSearchHistory = object : OnItemClickListener{
+            override fun onItemClick(track: Track) {
+                searchHistory.addTrack(track)
+                val displayPlayer = Intent(this@ActivitySearch, ActivityPlayer::class.java).apply {
+                    putExtra("TRACK", track)
+                }
+                startActivity(displayPlayer)
+            }
+        }
+        searchAdapterHistory = SearchAdapter(historyTracks, showSearchHistory)
         rvSearchHistory.adapter = searchAdapterHistory
 
 
