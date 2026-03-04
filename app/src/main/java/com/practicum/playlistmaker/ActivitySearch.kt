@@ -166,6 +166,7 @@ class ActivitySearch : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         searchHistory.removeChangeListener() {}
+        handler.removeCallbacks(searchRunnable)
     }
 
     private fun updateHistoryDisplay() {

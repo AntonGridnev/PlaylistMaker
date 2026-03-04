@@ -31,17 +31,18 @@ class ActivityPlayer : AppCompatActivity() {
 
     private var currentPosition = 0
     private val handler = Handler(Looper.getMainLooper())
-
+    private val dateFormat: SimpleDateFormat by lazy {
+        SimpleDateFormat("mm:ss", Locale.getDefault())
+    }
     private val positionRunnable = object : Runnable {
         override fun run() {
             if (playerState == STATE_PLAYING) {
                 currentPosition = mediaPlayer.currentPosition
-                tvCurrentPosition.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(currentPosition)
-                handler.postDelayed(this, DELAY)
+                tvCurrentPosition.text = dateFormat.format(currentPosition)
+                handler.postDelayed(this, POSITION_UPDATE_INTERVAL)
             }
         }
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +81,7 @@ class ActivityPlayer : AppCompatActivity() {
 
         tvTrackName.text = track.trackName
         tvAlbum.text = track.collectionName
-        timeTrack.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTime)
+        timeTrack.text = dateFormat.format(track.trackTime)
         album.text = track.collectionName
         year.text = track.releaseDate.substring(0, 4)
         genre.text = track.primaryGenreName
@@ -131,7 +132,7 @@ class ActivityPlayer : AppCompatActivity() {
         mediaPlayer.setOnCompletionListener {
             ibPlayStop.setImageResource(R.drawable.ic_play_83)
             playerState = STATE_PREPARED
-            tvCurrentPosition.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(0)
+            tvCurrentPosition.text = dateFormat.format(0)
         }
     }
 
@@ -166,6 +167,6 @@ class ActivityPlayer : AppCompatActivity() {
         private const val STATE_PREPARED = 1
         private const val STATE_PLAYING = 2
         private const val STATE_PAUSED = 3
-        private const val DELAY  = 350L
+        private const val POSITION_UPDATE_INTERVAL  = 350L
     }
 }
