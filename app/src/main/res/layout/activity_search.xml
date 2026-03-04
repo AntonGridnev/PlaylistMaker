@@ -73,6 +73,15 @@
 
     </RelativeLayout>
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="@dimen/search_progress_bar_size"
+        android:layout_height="@dimen/search_progress_bar_size"
+        android:layout_marginTop="148dp"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/blue"
+        android:visibility="gone"/>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
