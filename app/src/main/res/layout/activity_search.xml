@@ -123,6 +123,7 @@
                 android:id="@+id/rvSearchHistory"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
             <com.google.android.material.button.MaterialButton

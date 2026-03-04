@@ -20,7 +20,7 @@
         <item name="android:layout_marginHorizontal">@dimen/indent_size</item>
         <item name="android:layout_marginTop">@dimen/panel_header_indent</item>
         <item name="android:layout_weight">@dimen/activity_layout_weight</item>
-        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:background">@drawable/rounded_button_main</item>
 
         <item name="backgroundTint">@color/white</item>
         <item name="iconGravity">textStart</item>
@@ -72,5 +72,29 @@
         <item name="backgroundTint">?attr/colorSecondary</item>
         <item name="cornerRadius">54dp</item>
     </style>
+    <style name="playerHeadlinesTextStyle" parent="textSettingsStyle" >
+         <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/player_headlines_text</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+    <style name="playerTrackInfoTextStyle" parent="textSettingsStyle" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/player_headlines_text</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:lines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="layout_constrainedWidth">true</item>
+        <item name="layout_constraintHorizontal_bias">1.0</item>
+        <item name="android:layout_marginStart">16dp</item>
+
+    </style>
+
+
+
+
 
 </resources>

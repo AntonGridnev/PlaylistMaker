@@ -20,4 +20,5 @@
     <dimen name="search_small_text_size">11sp</dimen>
     <dimen name="search_errors_text_size">19sp</dimen>
     <dimen name="search_button_text_size">14sp</dimen>
+    <dimen name="player_headlines_text">13sp</dimen>
 </resources>
